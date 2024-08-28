@@ -22,7 +22,7 @@ public class UsersController(DataContext context) : ControllerBase{
     Get just one user
     param id : Id of the user to fetch
     */
-    [HttpGet("{id:id}")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<AppUser>> getUser(int id){
         var user = await context.Users.FindAsync(id);
         if(user == null){
