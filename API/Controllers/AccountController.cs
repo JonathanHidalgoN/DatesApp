@@ -6,7 +6,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API;
 
-public class AccountController(DataContext context): BaseApiController{
+public class AccountController(DataContext context, 
+                            ITokenService tokenService): BaseApiController{
 
     /**
     * This method is used to login a user
@@ -15,7 +16,7 @@ public class AccountController(DataContext context): BaseApiController{
     * @return The user object
     */
     [HttpPost("register")]
-    public async Task<ActionResult<AppUser>> register(RegisterDto registerDto){
+    public async Task<ActionResult<UserDto>> register(RegisterDto registerDto){
         if(await userExist(registerDto.userName)){
             return BadRequest("Username is taken");
         }
@@ -28,7 +29,11 @@ public class AccountController(DataContext context): BaseApiController{
         };
         context.Users.Add(user);
         await context.SaveChangesAsync();
-        return user;
+        return new UserDto{
+            userName = user.userName,
+            token = tokenService.createToken(user)
+        };
+        
     }
 
     /**
@@ -38,7 +43,7 @@ public class AccountController(DataContext context): BaseApiController{
     * @return The user object
     */
     [HttpPost("login")]
-    public async Task<ActionResult<AppUser>> login(LoginDto loginDto){
+    public async Task<ActionResult<UserDto>> login(LoginDto loginDto){
         var user = await context.Users.FirstOrDefaultAsync(
             x => x.userName == loginDto.userName.ToLower()
         );
@@ -52,7 +57,10 @@ public class AccountController(DataContext context): BaseApiController{
                 return Unauthorized("Invalid password");
             }
         }
-        return user;
+        return new UserDto{
+            userName = user.userName,
+            token = tokenService.createToken(user)
+        };
     }
 
     /**
