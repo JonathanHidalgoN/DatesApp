@@ -1,3 +1,4 @@
+using API;
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +11,7 @@ builder.Services.AddDbContext<DataContext>(opt =>
 });
 
 builder.Services.AddCors();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
@@ -18,5 +20,4 @@ WithOrigins("http://localhost:4200", "https://localhost:4200/"));
 
 app.MapControllers();
 
-app.Run();
- 
+app.Run(); 
