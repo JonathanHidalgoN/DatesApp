@@ -4,11 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API;
 
-
-[ApiController]
-[Route("api/[controller]")]
-public class UsersController(DataContext context) : ControllerBase{
-    
+public class UsersController(DataContext context) : BaseApiController{       
     /*
     Get all the users from the database
     */
