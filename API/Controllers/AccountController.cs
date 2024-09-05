@@ -21,7 +21,7 @@ public class AccountController(DataContext context,
             return BadRequest("Username is taken");
         }
 
-        using var hmac = new HMACSHA512();
+        /* using var hmac = new HMACSHA512();
         var user = new AppUser{
             userName = registerDto.userName.ToLower(),
             passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.password)),
@@ -33,7 +33,8 @@ public class AccountController(DataContext context,
             userName = user.userName,
             token = tokenService.createToken(user)
         };
-        
+         */
+        return Ok();
     }
 
     /**
