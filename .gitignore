@@ -89,3 +89,6 @@ Desktop.ini
 .*db-*
 
 .config/
+
+
+API/appsettings.*
