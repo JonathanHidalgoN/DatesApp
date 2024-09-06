@@ -22,7 +22,7 @@ public class Seed{
         foreach (var user in users)
         {
             using var hmac = new HMACSHA512();
-            user.userName = user.userName.ToLower();
+            user.username = user.username.ToLower();
             user.passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("Pa$$w0rd"));
             user.passwordSalt = hmac.Key;
             context.Users.Add(user);

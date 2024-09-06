@@ -5,7 +5,7 @@ namespace API;
 public class RegisterDto{
     [Required]
     [MaxLength(40)]
-    public string userName { get; set; } = string.Empty;
+    public string username { get; set; } = string.Empty;
     [Required]
     [MaxLength(40)]
     public string password { get; set; } = string.Empty;

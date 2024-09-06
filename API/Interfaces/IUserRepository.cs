@@ -31,11 +31,11 @@ public interface IUserRepository{
     * @param id The ID of the user
     * @return The user with the given ID
     */
-    Task<AppUser?> GetUserByUserNameAsync(string userName);
+    Task<AppUser?> GetUserByUserNameAsync(string username);
 
     /**
     * Get a user by their username
-    * @param userName The username of the user
+    * @param username The username of the user
     * @return The user with the given username
     */
     Task<IEnumerable<MembersDto>> GetMembersAsync();

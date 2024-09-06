@@ -8,7 +8,7 @@ namespace API;
 public class UserRepository(DataContext context, IMapper mapper) : IUserRepository
 {
     public async Task<MembersDto?> GetMemberAsync(string username){
-        return await context.Users.Where(x => x.userName == username)
+        return await context.Users.Where(x => x.username == username)
         .ProjectTo<MembersDto>(mapper.ConfigurationProvider)
         .SingleOrDefaultAsync();
     }
@@ -24,10 +24,10 @@ public class UserRepository(DataContext context, IMapper mapper) : IUserReposito
         return await context.Users.FindAsync(id);
     }
 
-    public async Task<AppUser?> GetUserByUserNameAsync(string userName)
+    public async Task<AppUser?> GetUserByUserNameAsync(string username)
     {
         return await context.Users.Include(x => x.Photos)
-        .SingleOrDefaultAsync(x => x.userName == userName);
+        .SingleOrDefaultAsync(x => x.username == username);
     }
 
     public async Task<IEnumerable<AppUser>> GetUsersAsync()

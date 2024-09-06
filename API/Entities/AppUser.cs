@@ -2,7 +2,7 @@ namespace API;
 
 public class AppUser{
     public int id{get; set;}
-    public required string userName {get; set;}
+    public required string username {get; set;}
 
     public byte[] passwordHash {get; set;} = [];
 

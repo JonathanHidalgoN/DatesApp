@@ -17,20 +17,20 @@ public class AccountController(DataContext context,
     */
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> register(RegisterDto registerDto){
-        if(await userExist(registerDto.userName)){
-            return BadRequest("Username is taken");
+        if(await userExist(registerDto.username)){
+            return BadRequest("username is taken");
         }
 
         /* using var hmac = new HMACSHA512();
         var user = new AppUser{
-            userName = registerDto.userName.ToLower(),
+            username = registerDto.username.ToLower(),
             passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.password)),
             passwordSalt = hmac.Key
         };
         context.Users.Add(user);
         await context.SaveChangesAsync();
         return new UserDto{
-            userName = user.userName,
+            username = user.username,
             token = tokenService.createToken(user)
         };
          */
@@ -46,7 +46,7 @@ public class AccountController(DataContext context,
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> login(LoginDto loginDto){
         var user = await context.Users.FirstOrDefaultAsync(
-            x => x.userName == loginDto.userName.ToLower()
+            x => x.username == loginDto.username.ToLower()
         );
         if(user == null){
             return Unauthorized("Invalid username");
@@ -59,7 +59,7 @@ public class AccountController(DataContext context,
             }
         }
         return new UserDto{
-            userName = user.userName,
+            username = user.username,
             token = tokenService.createToken(user)
         };
     }
@@ -70,6 +70,6 @@ public class AccountController(DataContext context,
     * @return A boolean value
     */
     private async Task<bool> userExist(string username){
-        return await context.Users.AnyAsync(x => x.userName.ToLower() == username.ToLower());
+        return await context.Users.AnyAsync(x => x.username.ToLower() == username.ToLower());
     }
 }
