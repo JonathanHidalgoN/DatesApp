@@ -17,5 +17,6 @@ public class AutoMapperProfiles : Profile {
             d => d.photoUrl, o => o.MapFrom(s=>s.Photos.FirstOrDefault(x=>x.isMain)!.url
         ));
         CreateMap<Photo, PhotoDto>();
+        CreateMap<MemberUpdateDto, AppUser>();
     }
 }
