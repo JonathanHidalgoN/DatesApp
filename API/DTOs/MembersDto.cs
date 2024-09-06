@@ -19,7 +19,7 @@ public class MembersDto{
 
     public string? introduction {get; set;}
 
-     public string? interest {get; set;}
+     public string? interests {get; set;}
 
      public string? lookingFor {get; set;}
 
