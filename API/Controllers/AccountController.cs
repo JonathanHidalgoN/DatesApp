@@ -45,7 +45,8 @@ public class AccountController(DataContext context,
     */
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> login(LoginDto loginDto){
-        var user = await context.Users.FirstOrDefaultAsync(
+        var user = await context.Users.Include(p => p.Photos).
+        FirstOrDefaultAsync(
             x => x.username == loginDto.username.ToLower()
         );
         if(user == null){
@@ -60,7 +61,8 @@ public class AccountController(DataContext context,
         }
         return new UserDto{
             username = user.username,
-            token = tokenService.createToken(user)
+            token = tokenService.createToken(user),
+            photoUrl = user.Photos.FirstOrDefault(x => x.isMain)?.url
         };
     }
 
