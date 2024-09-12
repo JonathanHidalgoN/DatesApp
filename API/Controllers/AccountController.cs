@@ -1,13 +1,14 @@
 using System.Security.Cryptography;
 using System.Text;
 using API.Data;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API;
 
 public class AccountController(DataContext context, 
-                            ITokenService tokenService): BaseApiController{
+                            ITokenService tokenService, IMapper mapper): BaseApiController{
 
     /**
     * This method is used to login a user
@@ -20,21 +21,20 @@ public class AccountController(DataContext context,
         if(await userExist(registerDto.username)){
             return BadRequest("username is taken");
         }
+        using var hmac = new HMACSHA512();
 
-        /* using var hmac = new HMACSHA512();
-        var user = new AppUser{
-            username = registerDto.username.ToLower(),
-            passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.password)),
-            passwordSalt = hmac.Key
-        };
+        var user = mapper.Map<AppUser>(registerDto);
+        user.username = registerDto.username.ToLower();
+        user.passwordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.password));
+        user.passwordSalt = hmac.Key;
+    
         context.Users.Add(user);
         await context.SaveChangesAsync();
         return new UserDto{
             username = user.username,
-            token = tokenService.createToken(user)
+            token = tokenService.createToken(user),
+            knowAs = user.knownAs
         };
-         */
-        return Ok();
     }
 
     /**
@@ -62,7 +62,8 @@ public class AccountController(DataContext context,
         return new UserDto{
             username = user.username,
             token = tokenService.createToken(user),
-            photoUrl = user.Photos.FirstOrDefault(x => x.isMain)?.url
+            photoUrl = user.Photos.FirstOrDefault(x => x.isMain)?.url,
+            knowAs = user.knownAs
         };
     }
 
