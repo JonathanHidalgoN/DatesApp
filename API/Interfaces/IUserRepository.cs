@@ -38,7 +38,7 @@ public interface IUserRepository{
     * @param username The username of the user
     * @return The user with the given username
     */
-    Task<IEnumerable<MembersDto>> GetMembersAsync();
+    Task<PagedList<MembersDto>> GetMembersAsync(UserParams userParams);
 
     /**
     * Get all members
