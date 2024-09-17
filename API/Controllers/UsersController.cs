@@ -1,18 +1,19 @@
-using System.Security.Claims;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API;
-
+ 
 [Authorize]
 public class UsersController(IUserRepository userRepository, IMapper mapper, IPhotoService photoService) : BaseApiController{       
     /*
     Get all the users from the database
     */
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<MembersDto>>> getUsers(){
-        var users = await userRepository.GetMembersAsync();
+    public async Task<ActionResult<IEnumerable<MembersDto>>> getUsers([FromQuery] UserParams userParams){
+        userParams.currentUsername = User.getUsername();
+        var users = await userRepository.GetMembersAsync(userParams);
+        Response.addPaginationHeader(users);
         return Ok(users);
     }
 
