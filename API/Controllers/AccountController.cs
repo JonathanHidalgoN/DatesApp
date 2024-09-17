@@ -33,7 +33,8 @@ public class AccountController(DataContext context,
         return new UserDto{
             username = user.username,
             token = tokenService.createToken(user),
-            knowAs = user.knownAs
+            knowAs = user.knownAs,
+            gender = user.gender
         };
     }
 
@@ -63,7 +64,8 @@ public class AccountController(DataContext context,
             username = user.username,
             token = tokenService.createToken(user),
             photoUrl = user.Photos.FirstOrDefault(x => x.isMain)?.url,
-            knowAs = user.knownAs
+            knowAs = user.knownAs,
+            gender = user.gender
         };
     }
 
