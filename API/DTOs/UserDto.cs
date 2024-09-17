@@ -7,4 +7,6 @@ public class UserDto{
     public string? photoUrl { get; set; }
 
     public required string? knowAs { get; set; }
+
+    public required string gender;
 }
