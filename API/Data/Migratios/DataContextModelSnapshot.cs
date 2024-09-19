@@ -71,7 +71,7 @@ namespace API.Data.Migratios
 
                     b.HasKey("id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("API.Photo", b =>
@@ -97,7 +97,7 @@ namespace API.Data.Migratios
 
                     b.HasIndex("AppUserId");
 
-                    b.ToTable("Photos");
+                    b.ToTable("Photos", (string)null);
                 });
 
             modelBuilder.Entity("API.Photo", b =>
